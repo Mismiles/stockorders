@@ -271,24 +271,12 @@ function renderResults(){
 
     results.innerHTML = "";
 
-    if(!ward){
-        return;
-    }
-
-    const filtered =
-        stockData.filter(item =>
-
-            item.wards.includes(ward)
-
-            &&
-
-            (
-                item.medication.toLowerCase().includes(search)
-                ||
-                item.strength.toLowerCase().includes(search)
-            )
-
-        );
+const filtered =
+    stockData.filter(item =>
+        item.medication.toLowerCase().includes(search)
+        ||
+        item.strength.toLowerCase().includes(search)
+    );
 
     filtered.forEach((item,index)=>{
 
