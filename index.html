@@ -321,13 +321,13 @@ function renderResults(){
                             class="form-control"
                             placeholder="Quantity"
                             min="1"
-                            id="qty${index}">
+                  id="qty_${item.nsvCode}">
                     </div>
 
                     <div class="col-md-6">
                         <button
                             class="btn btn-primary w-100"
-                            onclick="addItem(${index})">
+                            onclick="addItem('${item.nsvCode}')">
                             Add To Order
                         </button>
                     </div>
@@ -344,33 +344,44 @@ function renderResults(){
 
 }
 
-function addItem(index){
+function addItem(nsvCode){
 
     const ward =
-        document.getElementById("wardSelect").value;
+        document.getElementById(
+            "wardSelect"
+        ).value;
 
-    const filtered =
-        stockData.filter(item => item.wards.includes(ward));
+    const item =
+        stockData.find(
+            drug => drug.nsvCode === nsvCode
+        );
 
-    const item = filtered[index];
+    const quantityInput =
+        document.getElementById(
+            `qty_${nsvCode}`
+        );
 
     const quantity =
-        document.getElementById(`qty${index}`).value;
+        quantityInput.value;
 
-    if(quantity === ""){
+    if(!quantity){
+
         alert("Enter a quantity");
+
         return;
+
     }
 
     orderItems.push({
 
-        ward:ward,
+        ward: ward,
 
-        medication:item.medication,
-        strength:item.strength,
-        formulation:item.formulation,
-        packSize:item.packSize,
-        quantity:quantity
+        medication: item.medication,
+        strength: item.strength,
+        formulation: item.formulation,
+        packSize: item.packSize,
+        nsvCode: item.nsvCode,
+        quantity: quantity
 
     });
 
