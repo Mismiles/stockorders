@@ -1,0 +1,178 @@
+[
+  {
+    "medication":"Lorazepam",
+    "strength":"4mg/1mL",
+    "formulation":"Injection",
+    "packSize":"10 amps",
+    "nsvCode":"ZZB297K",
+    "wards":["Beech/Hazel","Hollingworth","Moorside","Prospect Assessment","Prospect Recovery","Prospect Social Inclusion"]
+  },
+  {
+    "medication":"Glucagon",
+    "strength":"1mg",
+    "formulation":"Injection",
+    "packSize":"1 vial",
+    "nsvCode":"DTV438L",
+    "wards":["Beech/Hazel","Floyd","Hollingworth","Moorside","Prospect Assessment","Prospect Recovery","Prospect Social Inclusion"]
+  },
+  {
+    "medication":"Insulin Novorapid",
+    "strength":"300units/3mL",
+    "formulation":"FlexPen",
+    "packSize":"5x3mL",
+    "nsvCode":"DTV981N",
+    "wards":["Beech/Hazel","Floyd","Hollingworth","Moorside","Prospect Assessment","Prospect Recovery","Prospect Social Inclusion"]
+  },
+  {
+    "medication":"Pabrinex",
+    "strength":"",
+    "formulation":"I/M High Potency Injection",
+    "packSize":"10 pairs",
+    "nsvCode":"DTV218V",
+    "wards":["Hollingworth","Moorside"]
+  },
+  {
+    "medication":"Twinrix",
+    "strength":"Adult 1mL",
+    "formulation":"Syringe",
+    "packSize":"10",
+    "nsvCode":"AAB859R",
+    "wards":["Prospect Social Inclusion"]
+  },
+  {
+    "medication":"Paracetamol",
+    "strength":"250mg/5mL",
+    "formulation":"Suspension",
+    "packSize":"500mL",
+    "nsvCode":"DUX042X",
+    "wards":["Beech/Hazel"]
+  },
+  {
+    "medication":"Ethyl Chloride",
+    "strength":"100mL",
+    "formulation":"Direct Stream Spray",
+    "packSize":"1",
+    "nsvCode":"DTV548K",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Insulin Glargine (Lantus)",
+    "strength":"300units/3mL",
+    "formulation":"SoloStar Pen",
+    "packSize":"5",
+    "nsvCode":"FGH321J",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Insulin Glargine (Semglee)",
+    "strength":"100units/mL",
+    "formulation":"Pen",
+    "packSize":"5x3mL",
+    "nsvCode":"ZZB161F",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Insulin Actrapid",
+    "strength":"100units/mL",
+    "formulation":"Injection",
+    "packSize":"10mL",
+    "nsvCode":"DTV656M",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Chloramphenicol",
+    "strength":"0.5%",
+    "formulation":"Eye Drops",
+    "packSize":"10mL",
+    "nsvCode":"DTV859H",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Desmopressin",
+    "strength":"10microgram",
+    "formulation":"Nasal Spray",
+    "packSize":"6mL",
+    "nsvCode":"DTV391I",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Desmopressin",
+    "strength":"4microgram/mL",
+    "formulation":"Injection",
+    "packSize":"10 amps",
+    "nsvCode":"DTV350I",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Desmopressin",
+    "strength":"100microgram",
+    "formulation":"Tablets",
+    "packSize":"90 tablets",
+    "nsvCode":"DEB678Q",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Desmopressin",
+    "strength":"60microgram",
+    "formulation":"S/L Tablets",
+    "packSize":"100 tablets",
+    "nsvCode":"DVE141A",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Flucloxacillin",
+    "strength":"250mg/5mL",
+    "formulation":"Oral Solution",
+    "packSize":"100mL",
+    "nsvCode":"RHT727B",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Sodium Chloride",
+    "strength":"0.9%",
+    "formulation":"Irrigation",
+    "packSize":"1 litre",
+    "nsvCode":"DQM620A",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Water For Irrigation",
+    "strength":"1L",
+    "formulation":"Pour Bottle",
+    "packSize":"6",
+    "nsvCode":"DVR155A",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Sodium Chloride",
+    "strength":"0.9%",
+    "formulation":"Infusion",
+    "packSize":"100mL",
+    "nsvCode":"AAB580F",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Pro-Cal",
+    "strength":"",
+    "formulation":"Powder",
+    "packSize":"510g",
+    "nsvCode":"DUX640B",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Ipratropium",
+    "strength":"500microgram/2mL",
+    "formulation":"Nebuliser Solution",
+    "packSize":"20",
+    "nsvCode":"DTV091B",
+    "wards":["Floyd"]
+  },
+  {
+    "medication":"Salbutamol",
+    "strength":"100microgram",
+    "formulation":"Inhaler",
+    "packSize":"200 doses",
+    "nsvCode":"RHT656B",
+    "wards":["Floyd"]
+  }
+]
