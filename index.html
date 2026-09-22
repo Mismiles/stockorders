@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Medication Stock Ordering</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+
+<style>
+
+body{
+    background:#f4f6f9;
+}
+
+#emailPreview{
+    font-size:0.9rem;
+    line-height:1.3;
+    white-space:normal;
+}
+
+#emailPreview br{
+    line-height:1.3;
+}
+  
+.page-title{
+    font-weight:700;
+}
+
+.search-card,
+.result-card,
+.email-card{
+    border:none;
+    border-radius:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+.result-card{
+    margin-bottom:15px;
+}
+
+.email-card{
+    position:sticky;
+    top:20px;
+    height:85vh;
+}
+
+.email-card .card-body{
+    overflow-y:auto;
+}
+
+.med-name{
+    font-size:1.1rem;
+    font-weight:600;
+}
+
+.info-label{
+    font-weight:600;
+}
+
+.delete-link{
+    color:#dc3545;
+    cursor:pointer;
+    font-size:0.75rem;
+    margin-left:8px;
+}
+
+.delete-link:hover{
+    text-decoration:underline;
+}
+
+.header-bar{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid p-4">
+
+    <div class="header-bar">
+        <h2 class="page-title mb-0">Medication Stock Ordering System</h2>
+    </div>
+
+    <div class="row">
+
+        <!-- LEFT SIDE -->
+        <div class="col-lg-5">
+
+            <div class="card search-card mb-3">
+                <div class="card-body">
+
+                    <label class="form-label fw-bold">
+                        Select Ward
+                    </label>
+
+                    <select class="form-select" id="wardSelect">
+
+                        <option value="">Choose Ward...</option>
+                        <option>Beech/Hazel</option>
+                        <option>Floyd</option>
+                        <option>Hollingworth</option>
+                        <option>Moorside</option>
+                        <option>Prospect Assessment</option>
+                        <option>Prospect Recovery</option>
+                        <option>Prospect Social Inclusion</option>
+
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="card search-card mb-4">
+                <div class="card-body">
+
+                    <label class="form-label fw-bold">
+                        Search Medication
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="searchBox"
+                        placeholder="Type medication name or strength..."
+                    >
+
+                </div>
+            </div>
+
+            <div id="results"></div>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="col-lg-7">
+
+            <div class="card email-card">
+
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Draft Email</h5>
+                </div>
+
+                <div class="card-body p-3">
+
+                    <div id="emailPreview">
+Dear team,
+
+I hope you are well.
+
+Can you kindly process the following medication stock orders:
+                    </div>
+
+                </div>
+
+                <div class="card-footer">
+
+    <button
+        class="btn btn-success w-100 mb-3"
+        onclick="copyEmail()">
+
+        Copy Email
+
+    </button>
+
+    <div class="accordion" id="deletedAccordion">
+
+        <div class="accordion-item">
+
+            <h2 class="accordion-header">
+
+                <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#deletedCollapse">
+
+                    Deleted Items
+
+                </button>
+
+            </h2>
+
+            <div
+                id="deletedCollapse"
+                class="accordion-collapse collapse">
+
+                <div
+                    class="accordion-body"
+                    id="deletedItemsBody">
+
+                    No deleted items
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let stockData = [];
+
+fetch("stockData.json")
+    .then(response => response.json())
+    .then(data => {
+
+        stockData = data;
+
+        renderResults();
+
+    })
+    .catch(error => {
+
+        console.error(
+            "Failed to load stock data",
+            error
+        );
+
+    });
+``
+
+
+let orderItems = [];
+let deletedItems = [];
+let emailPlainText = "";
+
+function renderResults(){
+
+    const ward =
+        document.getElementById("wardSelect").value;
+
+    const search =
+        document
+        .getElementById("searchBox")
+        .value
+        .toLowerCase();
+
+    const results =
+        document.getElementById("results");
+
+    results.innerHTML = "";
+
+    if(!ward){
+        return;
+    }
+
+    const filtered =
+        stockData.filter(item =>
+
+            item.wards.includes(ward)
+
+            &&
+
+            (
+                item.medication.toLowerCase().includes(search)
+                ||
+                item.strength.toLowerCase().includes(search)
+            )
+
+        );
+
+    filtered.forEach((item,index)=>{
+
+        results.innerHTML += `
+
+        <div class="card result-card">
+
+            <div class="card-body">
+
+                <div class="med-name">
+                    ${item.medication}
+                </div>
+
+                <div>
+                    <span class="info-label">Strength:</span>
+                    ${item.strength}
+                </div>
+
+                <div>
+                    <span class="info-label">Formulation:</span>
+                    ${item.formulation}
+                </div>
+
+                <div>
+                    <span class="info-label">Pack Size:</span>
+                    ${item.packSize}
+                </div>
+
+                <div>
+                    <span class="info-label">NSV Code:</span>
+                    ${item.nsvCode}
+                </div>
+
+<div class="mb-3">
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Quantity"
+                            min="1"
+                            id="qty${index}">
+                    </div>
+
+                    <div class="col-md-6">
+                        <button
+                            class="btn btn-primary w-100"
+                            onclick="addItem(${index})">
+                            Add To Order
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+function addItem(index){
+
+    const ward =
+        document.getElementById("wardSelect").value;
+
+    const filtered =
+        stockData.filter(item => item.wards.includes(ward));
+
+    const item = filtered[index];
+
+    const quantity =
+        document.getElementById(`qty${index}`).value;
+
+    if(quantity === ""){
+        alert("Enter a quantity");
+        return;
+    }
+
+    orderItems.push({
+
+        ward:ward,
+
+        medication:item.medication,
+        strength:item.strength,
+        formulation:item.formulation,
+        packSize:item.packSize,
+        quantity:quantity
+
+    });
+
+    updateEmail();
+
+}
+
+function deleteItem(index){
+
+    if(!confirm("Are you sure you want to delete this item?")){
+        return;
+    }
+
+    deletedItems.push(orderItems[index]);
+
+    orderItems.splice(index,1);
+
+    updateEmail();
+    updateDeletedAccordion();
+
+}
+
+function undoDelete(index){
+
+    orderItems.push(deletedItems[index]);
+
+    deletedItems.splice(index,1);
+
+    updateEmail();
+    updateDeletedAccordion();
+
+}
+
+function updateEmail() {
+
+    const emailPreview = document.getElementById("emailPreview");
+
+    if (orderItems.length === 0) {
+
+        emailPreview.innerHTML =
+            "Dear team,<br><br>" +
+            "I hope you are well.<br><br>" +
+            "Can you kindly process the following medication stock orders:";
+
+        return;
+    }
+
+    const wardGroups = {};
+
+    orderItems.forEach(item => {
+
+        if (!wardGroups[item.ward]) {
+            wardGroups[item.ward] = [];
+        }
+
+        wardGroups[item.ward].push(item);
+
+    });
+
+let emailHtml = `
+<p>Dear team,</p>
+
+<p>I hope you are well.</p>
+
+<p>
+Can you kindly process the following medication stock orders:
+</p>
+`;
+
+let plainText =
+    "Dear team,\n\n" +
+    "I hope you are well.\n\n" +
+    "Can you kindly process the following medication stock orders:\n\n";
+
+Object.keys(wardGroups).forEach(ward => {
+
+    emailHtml += `
+    <strong><u>${ward}</u></strong><br>
+`;
+
+    plainText += `${ward}\n`;
+
+    wardGroups[ward].forEach(item => {
+
+        const itemText =
+            `${item.medication}` +
+            `${item.strength ? ' ' + item.strength : ''}` +
+            `${item.formulation ? ' ' + item.formulation : ''}` +
+            ` (${item.packSize})` +
+            ` x ${item.quantity}`;
+
+        const realIndex =
+            orderItems.indexOf(item);
+
+        emailHtml += `
+       <span>
+    ${itemText}
+</span>
+
+<span
+    class="delete-link no-copy"
+    onclick="deleteItem(${realIndex})">
+
+    Delete
+
+</span>
+
+<br>
+        `;
+
+        plainText += itemText + "\n";
+
+    });
+
+    emailHtml += `<br>`;
+
+    plainText += "\n";
+
+});
+
+    emailHtml += "Many thanks.";
+    
+    plainText += "Many thanks.";
+    
+    emailPlainText = plainText;
+    
+    emailPreview.innerHTML = emailHtml;
+
+}
+
+function updateDeletedAccordion(){
+
+    const container =
+        document.getElementById(
+            "deletedItemsBody"
+        );
+
+    if(deletedItems.length === 0){
+
+        container.innerHTML =
+            "No deleted items";
+
+        return;
+
+    }
+
+    const wardGroups = {};
+
+    deletedItems.forEach(item => {
+
+        if(!wardGroups[item.ward]){
+
+            wardGroups[item.ward] = [];
+
+        }
+
+        wardGroups[item.ward].push(item);
+
+    });
+
+    let html = "";
+
+    Object.keys(wardGroups).forEach(ward => {
+
+        html += `
+            <div class="mb-3">
+
+                <strong>
+
+                    ${ward}
+                    (${wardGroups[ward].length})
+
+                </strong>
+            </div>
+        `;
+
+        wardGroups[ward].forEach(item => {
+
+            const idx =
+                deletedItems.indexOf(item);
+
+            html += `
+
+                <div
+                    class="border rounded p-2 mb-2">
+
+                    <div>
+
+                        ${item.medication}
+                        ${item.strength ? ' ' + item.strength : ''}
+                        ${item.formulation ? ' ' + item.formulation : ''}
+                        (${item.packSize})
+                        x ${item.quantity}
+
+                    </div>
+
+                    <button
+                        class="btn btn-sm btn-outline-success mt-2"
+                        onclick="undoDelete(${idx})">
+
+                        Undo Delete
+
+                    </button>
+
+                </div>
+
+            `;
+
+        });
+
+    });
+
+    container.innerHTML = html;
+
+}
+
+async function copyEmail() {
+
+    const preview =
+        document.getElementById("emailPreview");
+
+    const clone =
+        preview.cloneNode(true);
+
+    clone
+        .querySelectorAll(".no-copy")
+        .forEach(el => el.remove());
+
+    const html = clone.innerHTML;
+
+    const text = clone.innerText;
+
+    await navigator.clipboard.write([
+        new ClipboardItem({
+            "text/html": new Blob(
+                [html],
+                { type: "text/html" }
+            ),
+            "text/plain": new Blob(
+                [text],
+                { type: "text/plain" }
+            )
+        })
+    ]);
+
+    alert("Email copied");
+}
+
+document
+    .getElementById("searchBox")
+    .addEventListener("keyup", renderResults);
+
+document
+    .getElementById("wardSelect")
+    .addEventListener("change", renderResults);
+  
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  
+</body>
+</html>
