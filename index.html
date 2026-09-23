@@ -115,7 +115,7 @@ body{
 
                     <select class="form-select" id="wardSelect">
 
-                        <option value="">Choose Ward...</option>
+                        <option value="">Search a medicine or click to choose a Ward...</option>
                         <option>Beech/Hazel</option>
                         <option>Floyd</option>
                         <option>Hollingworth</option>
@@ -271,12 +271,28 @@ function renderResults(){
 
     results.innerHTML = "";
 
-const filtered =
-    stockData.filter(item =>
-        item.medication.toLowerCase().includes(search)
+const filtered = stockData.filter(item => {
+
+    const matchesSearch =
+
+        item.medication
+            .toLowerCase()
+            .includes(search)
+
         ||
-        item.strength.toLowerCase().includes(search)
-    );
+
+        item.strength
+            .toLowerCase()
+            .includes(search);
+
+    if(!matchesSearch) return false;
+
+    if(!ward) return true;
+
+    return item.wards.includes(ward);
+
+});
+``
 
     filtered.forEach((item,index)=>{
 
