@@ -90,6 +90,11 @@ body{
     opacity:0.85;
 }
 
+.btn:disabled{
+    cursor:not-allowed;
+    opacity:0.5;
+}
+
 </style>
 </head>
 
@@ -361,19 +366,24 @@ const wardBadges =
 
                     <div class="col-md-6">
                         <input
-                            type="number"
-                            class="form-control"
-                            placeholder="Quantity"
-                            min="1"
-                  id="qty_${item.nsvCode}">
+                      type="number"
+                      class="form-control qty-input"
+                      placeholder="Quantity"
+                      min="1"
+                      id="qty_${item.nsvCode}"
+                      oninput="toggleAddButton('${item.nsvCode}')">
                     </div>
 
                     <div class="col-md-6">
                         <button
-                            class="btn btn-primary w-100"
-                            onclick="addItem('${item.nsvCode}')">
-                            Add To Order
-                        </button>
+    class="btn btn-primary w-100"
+    id="btn_${item.nsvCode}"
+    onclick="addItem('${item.nsvCode}')"
+    disabled>
+
+    Add To Order
+
+</button>
                     </div>
 
                 </div>
@@ -680,7 +690,11 @@ document
 
 document
     .getElementById("wardSelect")
-    .addEventListener("change", renderResults);
+    .addEventListener("change", () => {
+
+        renderResults();
+
+    });
 
 function selectWard(ward){
 
@@ -688,6 +702,32 @@ function selectWard(ward){
 
     renderResults();
 
+}
+
+function toggleAddButton(nsvCode){
+
+    const ward =
+        document.getElementById("wardSelect").value;
+
+    const qty =
+        document.getElementById(
+            `qty_${nsvCode}`
+        ).value;
+
+    const button =
+        document.getElementById(
+            `btn_${nsvCode}`
+        );
+
+    const enabled =
+        ward && qty && qty > 0;
+
+    button.disabled = !enabled;
+
+    button.innerText =
+        enabled
+            ? "Add To Order"
+            : "Enter Qty";
 }
 </script>
 
